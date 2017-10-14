@@ -58,22 +58,27 @@ for level_dim in level_dims:
         if(grid_square[0]):
             # This has already been visited
             continue
+        grid[current[1]][current[2]] = \
+            (True, grid_square[1], grid_square[2])
         if(grid_square[1] == STAIR or grid_square[1] == PIKACHU):
             total_path_length += current[0]
             break
         # Check adjacent squares
         for xoff, yoff in [[1, 0], [0, 1], [-1, 0], [0, -1]]:
+            if current[1] + xoff < 0 or current[2] + yoff < 0:
+                continue
             try:
                 other_grid_square = \
                     grid[current[1] + xoff][current[2] + yoff]
                 if other_grid_square[1] == NOWALK:
                     continue
                 if current[0] + 1 < other_grid_square[2]:
-                    other_grid_square = (current[0] + 1,
-                                         other_grid_square[1],
-                                         other_grid_square[2])
+                    grid[current[1] + xoff][current[2] + yoff] = (
+                        other_grid_square[0],
+                        other_grid_square[1],
+                        current[0] + 1)
                     heapq.heappush(
-                        unvisited, (other_grid_square[0],
+                        unvisited, (current[0] + 1,
                                     current[1] + xoff,
                                     current[2] + yoff))
             except IndexError:
