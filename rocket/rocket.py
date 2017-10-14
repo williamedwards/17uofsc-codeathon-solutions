@@ -20,6 +20,7 @@ INF = 1000
 
 num_levels = int(input())
 level_dims = [int(val) for val in input().split(" ")]
+total_path_length = 0
 
 # We will represent tuple (tentative distance, type)
 # We can just compute one level at a time
@@ -30,7 +31,6 @@ for level_dim in level_dims:
     dest_coords = None # Stairs or pikachu
     warp_coords = []
 
-    total_path_length = 0
     for i in range(level_dim):
         row = []
         for j, char in enumerate(input()):
@@ -89,11 +89,14 @@ for level_dim in level_dims:
             if (current[1], current[2]) == warp_point:
                 warp_point = warp_coords[1]
             other_grid_square = grid[warp_point[0]][warp_point[1]]
-            if current[0] + 1 < other_grid_square[0]:
-                other_grid_square[0] = current[0] + 1
+            if current[0] < other_grid_square[2]:
+                grid[warp_point[0]][warp_point[1]] = (
+                    other_grid_square[0],
+                    other_grid_square[1],
+                    current[0])
                 heapq.heappush(
-                    unvisited, (other_grid_square[0],
+                    unvisited, (current[0],
                                 warp_point[0],
                                 warp_point[1]))
-print(total_path_length+1)
+print(total_path_length)
 
