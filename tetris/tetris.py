@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # Representation of board. 2-d list of bools.  Outer list is rows.  False is empty, true is filled
 
 
@@ -99,4 +100,22 @@ def find_move_sequence(board, blocks):
                 if rem_seq is not None:
                     return [(r, p)] + rem_seq
     return None
+
+if __name__ == "__main__":
+    N = int(input())
+    blocks = [BLOCK_TYPES[c] for c in input().split(" ")]
+    board = []
+    for i in range(5):
+        line = input()
+        row = []
+        for j in range(8):
+            if line[j] == "#":
+                row.append(True)
+            else:
+                row.append(False)
+        board.append(row)
+    sol = find_move_sequence(board, blocks)
+    for move in sol:
+        print(move[0], move[1])
+
 
