@@ -33,7 +33,7 @@ def do_clear(board):
         if row == [True] * 8:
             did_clear = True
             del new_board[i]
-    while len(new_board) < 5:
+    while len(new_board) < 6:
         new_board = [[False] * 8] + new_board
     if did_clear:
         return do_clear(new_board)
@@ -60,7 +60,7 @@ def in_board(block, x, y):
     for elem in block:
         if x + elem[0] < 0 or x + elem[0] > 7:
             return False
-        if y - elem[1] < 0 or y - elem[0] > 4:
+        if y - elem[1] < 0 or y - elem[0] > 5:
             return False
     return True
 
@@ -75,7 +75,7 @@ def apply_move(board, block, r, p):
     new_board = copy.deepcopy(board)
     new_block = rotate_block(block, r)
     has_found_valid_pos = False
-    for y in range(6):
+    for y in range(7):
         if(in_board(new_block, p, y)
            and not collides_with_existing_blocks(board, new_block, p, y)):
             has_found_valid_pos = True
@@ -89,7 +89,7 @@ def apply_move(board, block, r, p):
 
 def find_move_sequence(board, blocks):
     if blocks == []:
-        if do_clear(board) == [[False] * 8] * 5:
+        if do_clear(board) == [[False] * 8] * 6:
             return []
         else:
             return None
@@ -105,7 +105,7 @@ def find_move_sequence(board, blocks):
 if __name__ == "__main__":
     N = int(input())
     blocks = [BLOCK_TYPES[c] for c in input().split(" ")]
-    board = []
+    board = [[False] * 8]
     for i in range(5):
         line = input()
         row = []
