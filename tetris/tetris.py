@@ -91,7 +91,7 @@ def find_move_sequence(board, blocks):
             return []
         else:
             return None
-    for p in range(7):
+    for p in range(8):
         for r in range(4):
             new_board = apply_move(board, blocks[0], r, p)
             if not new_board is None:
