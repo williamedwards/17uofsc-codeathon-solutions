@@ -16,7 +16,7 @@ def is_position_winnable(board):
     for i in range(8): # Iterate over columns
         seen_empty = False
         for j in reversed(range(5)):
-            if not board[i][j]:
+            if not board[j][i]:
                 seen_empty = True
             elif seen_empty:
                 return False
