@@ -47,6 +47,13 @@ def in_board(block, x, y):
             return False
     return True
 
+def collides_with_existing_blocks(board, block, x, y):
+    for elem in block:
+        if board[y - elem[1]][x + elem[0]]:
+            print(elem)
+            return True
+    return False
+
 # Apply move.  Return board if legal; return None otherwise
 def apply_move(board, block_type, r, p):
     pass
