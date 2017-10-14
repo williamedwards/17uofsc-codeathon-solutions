@@ -12,16 +12,31 @@ BLOCK_TYPES = {
     "o" : [(0, 0), (1, 0), (0, 1), (1, 1)]
 }
 
-def is_position_winnable(board):
-    # Check to see if we have isolated empty space.
-    for i in range(8): # Iterate over columns
-        seen_empty = False
-        for j in reversed(range(5)):
-            if not board[j][i]:
-                seen_empty = True
-            elif seen_empty:
-                return False
-    return True
+#def is_position_winnable(board):
+#    # Check to see if we have isolated empty space.
+#    for i in range(8): # Iterate over columns
+#        seen_empty = False
+#        for j in reversed(range(5)):
+#            if not board[j][i]:
+#                seen_empty = True
+#            elif seen_empty:
+#                return False
+#    return True
+
+# Returns: board with cleared rows
+def do_clear(board):
+    did_clear = False
+    new_board = copy.deepcopy(board)
+    for i, row in reversed(list(enumerate(new_board))):
+        if row == [True] * 8:
+            did_clear = True
+            del new_board[i]
+    while len(new_board) < 5:
+        new_board = [[False] * 8] + new_board
+    if did_clear:
+        return do_clear(new_board)
+    else:
+        return new_board
 
 def rotate_block(block, r):
     new_block = block[:]
@@ -73,5 +88,9 @@ def apply_move(board, block, r, p):
                     new_board[y - elem[1]][p + elem[0]] = True
                 return new_board
     return None
+
+def find_move_sequence(board, blocks):
+    if blocks == []:
+        return []
 
 
