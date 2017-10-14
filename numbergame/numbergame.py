@@ -9,8 +9,9 @@ def print_guy(turn):
         print("FENNER")
 
 def update_cached(cached, values, turn_mask):
-    for value in values:
+    for value in reversed(values):
         cached[value] = turn_mask
+        turn_mask ^= 1
 
 T = int(input())
 Ns = []
