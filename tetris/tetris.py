@@ -1,6 +1,7 @@
 # Representation of board. 2-d list of bools.  Outer list is rows.  False is empty, true is filled
 
 
+import copy
 # Block types compute as offset from lower left-hand corner
 BLOCK_TYPES = {
     "i" : [(0, 0), (1, 0), (2, 0), (3, 0)],
@@ -30,7 +31,6 @@ def rotate_block(block, r):
         for elem in new_block:
             if elem[0] > width:
                 width = elem[0]
-        print(width)
 
         # Compute the rotation
         for j, elem in enumerate(new_block):
@@ -50,11 +50,28 @@ def in_board(block, x, y):
 def collides_with_existing_blocks(board, block, x, y):
     for elem in block:
         if board[y - elem[1]][x + elem[0]]:
-            print(elem)
             return True
     return False
 
 # Apply move.  Return board if legal; return None otherwise
-def apply_move(board, block_type, r, p):
-    pass
+def apply_move(board, block, r, p):
+    new_board = copy.deepcopy(board)
+    new_block = rotate_block(block, r)
+    has_found_valid_pos = False
+    print(new_block)
+    for y in range(6):
+        if(in_board(new_block, p, y)
+           and not collides_with_existing_blocks(board, new_block, p, y)):
+            has_found_valid_pos = True
+        else:
+            if has_found_valid_pos:
+                y = y - 1
+                print(y)
+                for elem in new_block:
+                    print(elem)
+                    print(p + elem[0], y - elem[1])
+                    new_board[y - elem[1]][p + elem[0]] = True
+                return new_board
+    return None
+
 
