@@ -39,6 +39,14 @@ def rotate_block(block, r):
             new_block[j] = (new_x, new_y)
     return new_block
 
+def in_board(block, x, y):
+    for elem in block:
+        if x + elem[0] < 0 or x + elem[0] > 7:
+            return False
+        if y - elem[1] < 0 or y - elem[0] > 4:
+            return False
+    return True
+
 # Apply move.  Return board if legal; return None otherwise
 def apply_move(board, block_type, r, p):
     pass
