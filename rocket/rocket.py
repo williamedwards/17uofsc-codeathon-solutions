@@ -16,7 +16,7 @@ STAIR = 3
 WARP = 4
 PIKACHU = 5
 
-INF = 1000
+INF = 1000000
 
 num_levels = int(input())
 level_dims = [int(val) for val in input().split(" ")]
@@ -24,8 +24,9 @@ total_path_length = 0
 
 # We will represent tuple (tentative distance, type)
 # We can just compute one level at a time
-for level_dim in level_dims:
-    input() # Read blank line
+for i, level_dim in enumerate(level_dims):
+    if(i != 0):
+        input()
     grid = []
     entry_coords = None
     dest_coords = None # Stairs or pikachu
@@ -45,7 +46,7 @@ for level_dim in level_dims:
                 row.append((False, PIKACHU, INF))
                 dest_coords = (i, j)
             if char == "e":
-                row.append((False, ENTER, INF))
+                row.append((False, ENTER, 0))
                 entry_coords = (i, j)
             if char == "w":
                 row.append((False, WARP, INF))
@@ -86,7 +87,7 @@ for level_dim in level_dims:
         # Check for warp points
         if grid_square[1] == WARP:
             warp_point = warp_coords[0]
-            if (current[1], current[2]) == warp_point:
+            if (current[1], current[2]) == tuple(warp_point):
                 warp_point = warp_coords[1]
             other_grid_square = grid[warp_point[0]][warp_point[1]]
             if current[0] < other_grid_square[2]:
