@@ -19,4 +19,4 @@ def calc_for_word(word):
 
 N = int(input())
 for i in range(N):
-    print(calc_for_word(input()))
+    print(calc_for_word(input()) % 100000007)
