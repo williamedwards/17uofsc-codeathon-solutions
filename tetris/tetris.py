@@ -73,7 +73,6 @@ def apply_move(board, block, r, p):
     new_board = copy.deepcopy(board)
     new_block = rotate_block(block, r)
     has_found_valid_pos = False
-    print(new_block)
     for y in range(6):
         if(in_board(new_block, p, y)
            and not collides_with_existing_blocks(board, new_block, p, y)):
@@ -81,16 +80,23 @@ def apply_move(board, block, r, p):
         else:
             if has_found_valid_pos:
                 y = y - 1
-                print(y)
                 for elem in new_block:
-                    print(elem)
-                    print(p + elem[0], y - elem[1])
                     new_board[y - elem[1]][p + elem[0]] = True
                 return new_board
     return None
 
 def find_move_sequence(board, blocks):
     if blocks == []:
-        return []
-
+        if do_clear(board) == [[False] * 8] * 5:
+            return []
+        else:
+            return None
+    for p in range(7):
+        for r in range(4):
+            new_board = apply_move(board, blocks[0], r, p)
+            if not new_board is None:
+                rem_seq = find_move_sequence(new_board, blocks[1:])
+                if rem_seq is not None:
+                    return [(r, p)] + rem_seq
+    return None
 
